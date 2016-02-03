@@ -7,8 +7,8 @@ local function run(msg, matches)
     return
   end
   local data = load_data(_config.moderation.data)
-  if data[tostring(msg.to.id)]['settings']['lock_arabic'] then
-    if data[tostring(msg.to.id)]['settings']['lock_arabic'] == 'yes' then
+  if data[tostring(msg.to.id)]['settings']['l_a'] then
+    if data[tostring(msg.to.id)]['settings']['l_a'] == 'yes' then
       if antiarabic[msg.from.id] == true then 
         return
       end
