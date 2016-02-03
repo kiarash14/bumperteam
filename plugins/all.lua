@@ -45,7 +45,7 @@ local function show_group_settings(target)
       NUM_MSG_MAX = tonumber(data[tostring(target)]['settings']['flood_msg_max'])
       print('custom'..NUM_MSG_MAX)
     else 
-      NUM_MSG_MAX = 5
+      NUM_MSG_MAX = 3
     end
   end
   local settings = data[tostring(target)]['settings']
@@ -148,8 +148,8 @@ end
 
 return {
   patterns = {
-  "^[!/](all)$",
-  "^[!/](all) (%d+)$"
+  "^(all)$",
+  "^(all) (%d+)$"
   },
   run = run
 }
