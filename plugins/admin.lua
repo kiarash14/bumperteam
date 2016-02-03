@@ -39,8 +39,8 @@ local function run(msg,matches)
     end
     if matches[1] == "m" then
     	if matches[2] == "n" then
-    		redis:set("bot:markread", "n")
-    		return "Mark read > on"
+    		redis:set("b:mr", "n")
+    		return "M r > on"
     	end
     	if matches[2] == "f" then
     		redis:del("b:m")
@@ -72,13 +72,13 @@ end
 return {
   patterns = {
     "^(pm) (%d+) (.*)$",
-    "^(import) (.*)$",
-    "^([Uu]nblock) (%d+)$",
-    "^([Bb]lock) (%d+)$",
-	"^([Mm]arkread) (on)$",
-	"^([Mm]arkread) (off)$",
-    "^([Ss]etbotphoto)$",
-	"%[(photo)%]"
+    "^(imp) (.*)$",
+    "^([Uu]nbl) (%d+)$",
+    "^([Bb]l) (%d+)$",
+	"^([Mm]r) (on)$",
+	"^([Mm]r) (off)$",
+    "^([Ss]bph)$",
+	"%[(ph)%]"
   },
   run = run,
 }
