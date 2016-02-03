@@ -48,7 +48,7 @@ local function pre_process(msg)
   local data = load_data(_config.moderation.data)
   if data[tostring(msg.to.id)] then
     --Check if flood is one or off
-    if data[tostring(msg.to.id)]['settings']['flood'] == 'no' then
+    if data[tostring(msg.to.id)]['settings']['f'] == 'n' then
       return msg
     end
   end
@@ -58,7 +58,7 @@ local function pre_process(msg)
     local hash = 'user:'..msg.from.id..':msgs'
     local msgs = tonumber(redis:get(hash) or 0)
     local data = load_data(_config.moderation.data)
-    local NUM_MSG_MAX = 5
+    local NUM_MSG_MAX = 3
     if data[tostring(msg.to.id)] then
       if data[tostring(msg.to.id)]['settings']['flood_msg_max'] then
         NUM_MSG_MAX = tonumber(data[tostring(msg.to.id)]['settings']['flood_msg_max'])--Obtain group flood sensitivity
