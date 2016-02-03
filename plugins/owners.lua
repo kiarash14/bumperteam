@@ -1,12 +1,12 @@
 
 
 local function lock_group_namemod(msg, data, target)
-  local group_name_set = data[tostring(target)]['settings']['set_name']
-  local group_name_lock = data[tostring(target)]['settings']['lock_name']
-  if group_name_lock == 'yes' then
+  local group_name_set = data[tostring(target)]['settings']['s_n']
+  local group_name_lock = data[tostring(target)]['settings']['l_n']
+  if group_name_lock == 'yes🔒' then
     return 'Group name is already locked'
   else
-    data[tostring(target)]['settings']['lock_name'] = 'yes'
+    data[tostring(target)]['settings']['lock_name'] = 'yes🔒'
     save_data(_config.moderation.data, data)
     rename_chat('chat#id'..target, group_name_set, ok_cb, false)
   return 'Group name has been locked'
@@ -14,67 +14,67 @@ local function lock_group_namemod(msg, data, target)
 end
 
 local function unlock_group_namemod(msg, data, target)
-  local group_name_set = data[tostring(target)]['settings']['set_name']
-  local group_name_lock = data[tostring(target)]['settings']['lock_name']
-  if group_name_lock == 'no' then
+  local group_name_set = data[tostring(target)]['settings']['s_n']
+  local group_name_lock = data[tostring(target)]['settings']['l_n']
+  if group_name_lock == 'no🔓' then
     return 'Group name is already unlocked'
   else
-    data[tostring(target)]['settings']['lock_name'] = 'no'
+    data[tostring(target)]['settings']['lock_name'] = 'no🔒'
     save_data(_config.moderation.data, data)
   return 'Group name has been unlocked'
   end
 end
 
 local function lock_group_floodmod(msg, data, target)
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
-  if group_flood_lock == 'yes' then
+  local group_flood_lock = data[tostring(target)]['settings']['f']
+  if group_flood_lock == 'yes🔒' then
     return 'Group flood is locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'yes'
+    data[tostring(target)]['settings']['flood'] = 'yes🔒'
     save_data(_config.moderation.data, data)
   return 'Group flood has been locked'
   end
 end
 
 local function unlock_group_floodmod(msg, data, target)
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
+  local group_flood_lock = data[tostring(target)]['settings']['f']
   if group_flood_lock == 'no' then
     return 'Group flood is not locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'no'
+    data[tostring(target)]['settings']['f'] = 'no🔓'
     save_data(_config.moderation.data, data)
   return 'Group flood has been unlocked'
   end
 end
 
 local function lock_group_membermod(msg, data, target)
-  local group_member_lock = data[tostring(target)]['settings']['lock_member']
-  if group_member_lock == 'yes' then
+  local group_member_lock = data[tostring(target)]['settings']['l_m']
+  if group_member_lock == 'yes🔒' then
     return 'Group members are already locked'
   else
-    data[tostring(target)]['settings']['lock_member'] = 'yes'
+    data[tostring(target)]['settings']['lock_member'] = 'yes🔒'
     save_data(_config.moderation.data, data)
   end
   return 'Group members has been locked'
 end
 
 local function unlock_group_membermod(msg, data, target)
-  local group_member_lock = data[tostring(target)]['settings']['lock_member']
-  if group_member_lock == 'no' then
+  local group_member_lock = data[tostring(target)]['settings']['l_m']
+  if group_member_lock == 'no🔓' then
     return 'Group members are not locked'
   else
-    data[tostring(target)]['settings']['lock_member'] = 'no'
+    data[tostring(target)]['settings']['l_m'] = 'no🔓'
     save_data(_config.moderation.data, data)
   return 'Group members has been unlocked'
   end
 end
 
 local function unlock_group_photomod(msg, data, target)
-  local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
+  local group_photo_lock = data[tostring(target)]['settings']['l_p']
   if group_photo_lock == 'no' then
       return 'Group photo is not locked'
   else
-      data[tostring(target)]['settings']['lock_photo'] = 'no'
+      data[tostring(target)]['settings']['lock_photo'] = 'no🔓'
       save_data(_config.moderation.data, data)
   return 'Group photo has been unlocked'
   end
@@ -87,7 +87,7 @@ local function show_group_settingsmod(msg, data, target)
         NUM_MSG_MAX = tonumber(data[tostring(msg.to.id)]['settings']['flood_msg_max'])
         print('custom'..NUM_MSG_MAX)
       else 
-        NUM_MSG_MAX = 5
+        NUM_MSG_MAX = 3
       end
     end
     local settings = data[tostring(target)]['settings']
@@ -105,7 +105,7 @@ end
 
 local function set_description(target, about)
   local data = load_data(_config.moderation.data)
-  local data_cat = 'description'
+  local data_cat = 'd'
   data[tostring(target)][data_cat] = about
   save_data(_config.moderation.data, data)
   return 'Set group description to:\n'..about
@@ -116,7 +116,7 @@ local function run(msg, matches)
     local chat_id = matches[1]
     local receiver = get_receiver(msg)
     local data = load_data(_config.moderation.data)
-    if matches[2] == 'ban' then
+    if matches[2] == 'b' then
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
@@ -147,7 +147,7 @@ local function run(msg, matches)
       savelog(matches[1], name.." ["..msg.from.id.."] unbanned user ".. matches[3])
       return 'User '..user_id..' unbanned'
     end
-    if matches[2] == 'kick' then
+    if matches[2] == 'k' then
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
@@ -162,8 +162,8 @@ local function run(msg, matches)
       savelog(matches[1], name.." ["..msg.from.id.."] kicked user ".. matches[3])
       return 'User '..user_id..' kicked'
     end
-    if matches[2] == 'clean' then
-      if matches[3] == 'modlist' then
+    if matches[2] == 'c' then
+      if matches[3] == 'plist' then
         if not is_owner2(msg.from.id, chat_id) then
           return "You are not the owner of this group"
         end
@@ -188,7 +188,7 @@ local function run(msg, matches)
         if not is_owner2(msg.from.id, chat_id) then
           return "You are not the owner of this group"
         end
-        local data_cat = 'description'
+        local data_cat = 'd'
         data[tostring(matches[1])][data_cat] = nil
         save_data(_config.moderation.data, data)
         local name = user_print_name(msg.from)
@@ -209,7 +209,7 @@ local function run(msg, matches)
       savelog(matches[1], name.." ["..msg.from.id.."] set flood to ["..matches[3].."]")
       return 'Group flood has been set to '..matches[3]
     end
-    if matches[2] == 'lock' then
+    if matches[2] == 'l' then
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
       end
@@ -219,13 +219,13 @@ local function run(msg, matches)
         savelog(matches[1], name.." ["..msg.from.id.."] locked name ")
         return lock_group_namemod(msg, data, target)
       end
-      if matches[3] == 'member' then
+      if matches[3] == 'm' then
         local name = user_print_name(msg.from)
         savelog(matches[1], name.." ["..msg.from.id.."] locked member ")
         return lock_group_membermod(msg, data, target)
       end
     end
-    if matches[2] == 'unlock' then
+    if matches[2] == 'unl' then
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
       end
@@ -235,21 +235,21 @@ local function run(msg, matches)
         savelog(matches[1], name.." ["..msg.from.id.."] unlocked name ")
         return unlock_group_namemod(msg, data, target)
       end
-      if matches[3] == 'member' then
+      if matches[3] == 'm' then
         local name = user_print_name(msg.from)
         savelog(matches[1], name.." ["..msg.from.id.."] unlocked member ")
         return unlock_group_membermod(msg, data, target)
       end
     end
-    if matches[2] == 'new' then
-      if matches[3] == 'link' then
+    if matches[2] == 'n' then
+      if matches[3] == 'l' then
         if not is_owner2(msg.from.id, chat_id) then
           return "You are not the owner of this group"
         end
         local function callback (extra , success, result)
           local receiver = 'chat#'..matches[1]
           vardump(result)
-          data[tostring(matches[1])]['settings']['set_link'] = result
+          data[tostring(matches[1])]['settings']['s_li'] = result
           save_data(_config.moderation.data, data)
           return 
         end
@@ -261,11 +261,11 @@ local function run(msg, matches)
       end
     end
     if matches[2] == 'get' then 
-      if matches[3] == 'link' then
+      if matches[3] == 'l' then
         if not is_owner2(msg.from.id, chat_id) then
           return "You are not the owner of this group"
         end
-        local group_link = data[tostring(matches[1])]['settings']['set_link']
+        local group_link = data[tostring(matches[1])]['settings']['s_li']
         if not group_link then 
           return "Create a link using /newlink first !"
         end
@@ -306,12 +306,12 @@ local function run(msg, matches)
 end
 return {
   patterns = {
-    "^[!/]owners (%d+) ([^%s]+) (.*)$",
-    "^[!/]owners (%d+) ([^%s]+)$",
-    "^[!/](changeabout) (%d+) (.*)$",
-    "^[!/](changerules) (%d+) (.*)$",
-    "^[!/](changename) (%d+) (.*)$",
-		"^[!/](loggroup) (%d+)$"
+    "^owners (%d+) ([^%s]+) (.*)$",
+    "^owners (%d+) ([^%s]+)$",
+    "^(changeabout) (%d+) (.*)$",
+    "^(changerules) (%d+) (.*)$",
+    "^(changename) (%d+) (.*)$",
+		"^(loggroup) (%d+)$"
   },
   run = run
 }
