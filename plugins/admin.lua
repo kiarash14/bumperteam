@@ -27,24 +27,24 @@ local function run(msg,matches)
     	return
     end
     if msg.media then
-      	if msg.media.type == 'photo' and redis:get("bot:photo") then
-      		if redis:get("bot:photo") == 'waiting' then
+      	if msg.media.type == 'ph' and redis:get("b:ph") then
+      		if redis:get("b:ph") == 'waiting' then
         		load_photo(msg.id, set_bot_photo, msg)
       		end
       	end
     end
-    if matches[1] == "setbotphoto" then
-    	redis:set("bot:photo", "waiting")
+    if matches[1] == "sbph" then
+    	redis:set("b:ph", "waiting")
     	return 'Please send me bot photo now'
     end
-    if matches[1] == "markread" then
-    	if matches[2] == "on" then
-    		redis:set("bot:markread", "on")
+    if matches[1] == "m" then
+    	if matches[2] == "n" then
+    		redis:set("bot:markread", "n")
     		return "Mark read > on"
     	end
-    	if matches[2] == "off" then
-    		redis:del("bot:markread")
-    		return "Mark read > off"
+    	if matches[2] == "f" then
+    		redis:del("b:m")
+    		return "M r > f"
     	end
     	return
     end
@@ -52,18 +52,18 @@ local function run(msg,matches)
     	send_large_msg("user#id"..matches[2],matches[3])
     	return "Msg sent"
     end
-    if matches[1] == "block" then
+    if matches[1] == "bl" then
     	if is_admin2(matches[2]) then
     		return "You can't block admins"
     	end
     	block_user("user#id"..matches[2],ok_cb,false)
     	return "User blocked"
     end
-    if matches[1] == "unblock" then
+    if matches[1] == "unbl" then
     	unblock_user("user#id"..matches[2],ok_cb,false)
     	return "User unblocked"
     end
-    if matches[1] == "import" then
+    if matches[1] == "imp" then
     	local hash = parsed_url(matches[2])
     	import_chat_link(hash,ok_cb,false)
     end
@@ -71,13 +71,13 @@ local function run(msg,matches)
 end
 return {
   patterns = {
-    "^[!/](pm) (%d+) (.*)$",
-    "^[!/](import) (.*)$",
-    "^[!/](unblock) (%d+)$",
-    "^[!/](block) (%d+)$",
-	"^[!/](markread) (on)$",
-	"^[!/](markread) (off)$",
-    "^[!/](setbotphoto)$",
+    "^(pm) (%d+) (.*)$",
+    "^(import) (.*)$",
+    "^([Uu]nblock) (%d+)$",
+    "^([Bb]lock) (%d+)$",
+	"^([Mm]arkread) (on)$",
+	"^([Mm]arkread) (off)$",
+    "^([Ss]etbotphoto)$",
 	"%[(photo)%]"
   },
   run = run,
